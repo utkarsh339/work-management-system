@@ -1,7 +1,9 @@
+import Login from "./pages/Login.jsx";
+
 function App() {
   return (
     <div>
-      <h1>Work Management UI</h1>
+      <Login />
     </div>
   );
 }
