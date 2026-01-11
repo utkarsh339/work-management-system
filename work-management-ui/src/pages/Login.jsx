@@ -1,13 +1,18 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function Login() {
+function Login({ onLogin }) {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Email: ", email);
-    console.log("Password: ", password);
+    if (email && password) {
+      onLogin();
+      navigate("/dashboard");
+    }
   };
 
   return (
