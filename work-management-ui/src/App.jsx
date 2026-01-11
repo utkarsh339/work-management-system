@@ -15,7 +15,13 @@ function App() {
           />
           <Route
             path="/dashboard"
-            element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />}
+            element={
+              isAuthenticated ? (
+                <Dashboard onLogout={() => setIsAuthenticated(false)} />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
           />
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
