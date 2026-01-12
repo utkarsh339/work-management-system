@@ -24,9 +24,8 @@ function DashboardLayout({ onLogout, children }) {
         <header style={styles.header}>
           <span>Work Management System</span>
           <button onClick={onLogout}>Logout</button>
-
-          <main style={styles.main}>{children}</main>
         </header>
+        <main style={styles.main}>{children}</main>
       </div>
     </div>
   );
@@ -69,9 +68,10 @@ const styles = {
     borderBottom: "1px solid #e5e7eb",
   },
   content: {
-    padding: "16px",
+    padding: "24px",
     backgroundColor: "#f3f4f6",
     flex: 1,
+    marginTop: "12px",
   },
 };
 
