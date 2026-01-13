@@ -1,4 +1,7 @@
 import { useState } from "react";
+import Modal from "../components/Modal";
+import CreateTaskForm from "../components/CreateTaskForm";
+
 const initialData = [
   {
     id: 1,
@@ -25,31 +28,16 @@ const initialData = [
 
 function Tasks() {
   const [tasks, setTasks] = useState(initialData);
+  const [isModelOpen, setIsModelOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState("All");
-  const [title, setTitle] = useState("");
-  const [assignedBy, setAssignedBy] = useState("");
-  const [status, setStatus] = useState("Pending");
-  const [dueDate, setDueDate] = useState("");
 
-  const handleCreateTask = (e) => {
-    e.preventDefault();
-    if (!title || !assignedBy || !dueDate) {
-      alert("Please fill all fields");
-      return;
-    }
-
+  const handleCreateTask = (task) => {
     const newTask = {
       id: tasks.length + 1,
-      title,
-      assignedBy,
-      status,
-      dueDate,
+      ...task,
     };
     setTasks([...tasks, newTask]);
-    setTitle("");
-    setAssignedBy("");
-    setStatus("Pending");
-    setDueDate("");
+    setIsModelOpen(false);
   };
 
   const filteredTasks =
@@ -62,8 +50,8 @@ function Tasks() {
       <h2>My Tasks</h2>
       <p>Tasks Assigned to You.</p>
 
-      {/* FILTER SECTION */}
-      <div style={styles.filterSection}>
+      {/* filter section */}
+      <div style={{ marginBottom: "12px" }}>
         <label style={{ marginRight: "8px" }}>Filter by status:</label>
         <select
           value={statusFilter}
@@ -76,38 +64,15 @@ function Tasks() {
         </select>
       </div>
 
-      {/* CREATE TASK SECTION */}
-      <form onSubmit={handleCreateTask} style={styles.form}>
-        <h3>Create Task</h3>
-
-        <input
-          type="text"
-          placeholder="Task title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-
-        <input
-          type="text"
-          placeholder="Assigned by"
-          value={assignedBy}
-          onChange={(e) => setAssignedBy(e.target.value)}
-        />
-
-        <select value={status} onChange={(e) => setStatus(e.target.value)}>
-          <option value="Pending">Pending</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Completed">Completed</option>
-        </select>
-
-        <input
-          type="date"
-          value={dueDate}
-          onChange={(e) => setDueDate(e.target.value)}
-        />
-
-        <button type="submit">Add Task</button>
-      </form>
+      {/* create task section */}
+      <button onClick={() => setIsModelOpen(true)}>+ Create Task</button>
+      <Modal
+        isOpen={isModelOpen}
+        onClose={() => setIsModelOpen(false)}
+        title="Create Task"
+      >
+        <CreateTaskForm onCreate={handleCreateTask} />
+      </Modal>
 
       <table style={styles.table}>
         <thead>
@@ -150,9 +115,6 @@ const styles = {
     borderCollapse: "collapse",
     marginTop: "16px",
     backgroundColor: "#fff",
-  },
-  filterSection: {
-    marginBottom: "12px",
   },
   form: {
     display: "flex",
