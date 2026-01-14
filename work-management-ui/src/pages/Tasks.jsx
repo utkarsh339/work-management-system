@@ -30,6 +30,7 @@ function Tasks() {
   const [tasks, setTasks] = useState(initialData);
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState("All");
+  const [selectedTask, setSelectedTask] = useState(null);
 
   const handleCreateTask = (task) => {
     const newTask = {
@@ -38,6 +39,20 @@ function Tasks() {
     };
     setTasks([...tasks, newTask]);
     setIsModelOpen(false);
+  };
+
+  const handleEditTask = (updatedTask) => {
+    const updatedTasks = tasks.map((task) =>
+      task.id === selectedTask.id ? { ...task, ...updatedTask } : task
+    );
+    setTasks(updatedTasks);
+    setSelectedTask(null);
+    setIsModelOpen(false);
+  };
+
+  const handleDeleteTask = (id) => {
+    const updatedTasks = tasks.filter((task) => task.id !== id);
+    setTasks(updatedTasks);
   };
 
   const filteredTasks =
@@ -68,10 +83,16 @@ function Tasks() {
       <button onClick={() => setIsModelOpen(true)}>+ Create Task</button>
       <Modal
         isOpen={isModelOpen}
-        onClose={() => setIsModelOpen(false)}
-        title="Create Task"
+        onClose={() => {
+          setIsModelOpen(false);
+          setSelectedTask(null);
+        }}
+        title={selectedTask ? "Edit Task" : "Create Task"}
       >
-        <CreateTaskForm onCreate={handleCreateTask} />
+        <CreateTaskForm
+          initialData={selectedTask || {}}
+          onSubmit={selectedTask ? handleEditTask : handleCreateTask}
+        />
       </Modal>
 
       <table style={styles.table}>
@@ -81,6 +102,7 @@ function Tasks() {
             <th style={styles.th}>Assigned By</th>
             <th style={styles.th}>Status</th>
             <th style={styles.th}>Due Date</th>
+            <th style={styles.th}>Actions</th>
           </tr>
         </thead>
 
@@ -101,6 +123,22 @@ function Tasks() {
               </td>
 
               <td style={styles.td}>{task.dueDate}</td>
+              <td style={styles.td}>
+                <button
+                  onClick={() => {
+                    setSelectedTask(task);
+                    setIsModelOpen(true);
+                  }}
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDeleteTask(task.id)}
+                  style={{ marginLeft: "8px" }}
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>

@@ -1,10 +1,11 @@
 import { useState } from "react";
 
-function CreateTaskForm({ onCreate }) {
-  const [title, setTitle] = useState("");
-  const [assignedBy, setAssignedBy] = useState("");
-  const [status, setStatus] = useState("Pending");
-  const [dueDate, setDueDate] = useState("");
+function CreateTaskForm({ onSubmit, initialData = {} }) {
+  const [title, setTitle] = useState(initialData.title || "");
+  const [assignedBy, setAssignedBy] = useState(initialData.assignedBy || "");
+  const [status, setStatus] = useState(initialData.status || "Pending");
+  const [dueDate, setDueDate] = useState(initialData.dueDate || "");
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!title || !assignedBy || !dueDate) {
@@ -12,7 +13,7 @@ function CreateTaskForm({ onCreate }) {
       return;
     }
 
-    onCreate({
+    onSubmit({
       title,
       assignedBy,
       status,
@@ -24,6 +25,7 @@ function CreateTaskForm({ onCreate }) {
     setStatus("Pending");
     setDueDate("");
   };
+
   return (
     <form onSubmit={handleSubmit} style={styles.form}>
       <h3>Create Task</h3>
@@ -54,7 +56,9 @@ function CreateTaskForm({ onCreate }) {
         onChange={(e) => setDueDate(e.target.value)}
       />
 
-      <button type="submit">Add Task</button>
+      <button type="submit">
+        {initialData.id ? "Update Task" : "Create Task"}
+      </button>
     </form>
   );
 }
