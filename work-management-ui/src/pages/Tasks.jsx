@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "../components/Modal";
 import CreateTaskForm from "../components/CreateTaskForm";
 
@@ -27,10 +27,17 @@ const initialData = [
 ];
 
 function Tasks() {
-  const [tasks, setTasks] = useState(initialData);
+  const [tasks, setTasks] = useState(() => {
+    const storedTasks = localStorage.getItem("tasks");
+    return storedTasks ? JSON.parse(storedTasks) : initialData;
+  });
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState("All");
   const [selectedTask, setSelectedTask] = useState(null);
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   const handleCreateTask = (task) => {
     const newTask = {

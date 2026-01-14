@@ -7,20 +7,33 @@ import Approvals from "./pages/Approvals.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    localStorage.getItem("isAuthenticated") === "true"
+  );
   return (
     <div>
       <BrowserRouter>
         <Routes>
           <Route
             path="/login"
-            element={<Login onLogin={() => setIsAuthenticated(true)} />}
+            element={
+              <Login
+                onLogin={() => {
+                  setIsAuthenticated(true);
+                  localStorage.setItem("isAuthenticated", "true");
+                }}
+              />
+            }
           />
           <Route
             element={
               <ProtectedRoute
                 isAuthenticated={isAuthenticated}
-                onLogout={() => setIsAuthenticated(false)}
+                onLogout={() => {
+                  setIsAuthenticated(false);
+                  localStorage.removeItem("isAuthenticated");
+                  localStorage.removeItem("tasks");
+                }}
               />
             }
           >
