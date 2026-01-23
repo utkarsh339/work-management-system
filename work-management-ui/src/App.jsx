@@ -24,7 +24,6 @@ function App() {
                 isAuthenticated={isAuthenticated}
                 onLogout={() => {
                   dispatch(logout());
-                  dispatch({ type: "tasks/clearTasks" });
                 }}
               />
             }
