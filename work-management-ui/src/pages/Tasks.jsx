@@ -1,34 +1,43 @@
 import { useState } from "react";
 import Modal from "../components/Modal";
 import CreateTaskForm from "../components/CreateTaskForm";
-import { useSelector, useDispatch } from "react-redux";
-import { addTask, updateTask, deleteTask } from "../store/taskSlice";
+import {
+  useGetTasksQuery,
+  useAddTaskMutation,
+  useUpdateTaskMutation,
+  useDeleteTaskMutation,
+} from "../store/api/apiSlice";
 
 function Tasks() {
-  const tasks = useSelector((state) => state.tasks.list);
-  const dispatch = useDispatch();
+  const { data: tasks = [], isLoading } = useGetTasksQuery();
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState("All");
   const [selectedTask, setSelectedTask] = useState(null);
 
-  const handleCreateTask = (task) => {
-    dispatch(addTask(task));
+  const [addTask] = useAddTaskMutation();
+  const [updateTask] = useUpdateTaskMutation();
+  const [deleteTask] = useDeleteTaskMutation();
+
+  if (isLoading) {
+    return <p>Loading tasks...</p>;
+  }
+
+  const handleCreateTask = async (task) => {
+    await addTask(task);
     setIsModelOpen(false);
   };
 
-  const handleEditTask = (updatedTask) => {
-    dispatch(
-      updateTask({
-        id: selectedTask.id,
-        ...updatedTask,
-      }),
-    );
+  const handleEditTask = async (updatedTask) => {
+    await updateTask({
+      id: selectedTask.id,
+      ...updatedTask,
+    });
     setSelectedTask(null);
     setIsModelOpen(false);
   };
 
-  const handleDeleteTask = (id) => {
-    dispatch(deleteTask(id));
+  const handleDeleteTask = async (id) => {
+    await deleteTask(id);
   };
 
   const filteredTasks =
