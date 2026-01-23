@@ -1,32 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Modal from "../components/Modal";
 import CreateTaskForm from "../components/CreateTaskForm";
 import { useSelector, useDispatch } from "react-redux";
 import { addTask, updateTask, deleteTask } from "../store/taskSlice";
-
-const initialData = [
-  {
-    id: 1,
-    title: "Prepare Monthly Report",
-    assignedBy: "Manager",
-    status: "Pending",
-    dueDate: "2026-01-20",
-  },
-  {
-    id: 2,
-    title: "Fix login bug",
-    assignedBy: "Tech Lead",
-    status: "In Progress",
-    dueDate: "2026-01-12",
-  },
-  {
-    id: 3,
-    title: "Update documentation",
-    assignedBy: "Admin",
-    status: "Completed",
-    dueDate: "2026-01-10",
-  },
-];
 
 function Tasks() {
   const tasks = useSelector((state) => state.tasks.list);
