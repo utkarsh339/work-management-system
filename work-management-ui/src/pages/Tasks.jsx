@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import Modal from "../components/Modal";
 import CreateTaskForm from "../components/CreateTaskForm";
+import { useSelector, useDispatch } from "react-redux";
+import { addTask, updateTask, deleteTask } from "../store/taskSlice";
 
 const initialData = [
   {
@@ -27,39 +29,30 @@ const initialData = [
 ];
 
 function Tasks() {
-  const [tasks, setTasks] = useState(() => {
-    const storedTasks = localStorage.getItem("tasks");
-    return storedTasks ? JSON.parse(storedTasks) : initialData;
-  });
+  const tasks = useSelector((state) => state.tasks.list);
+  const dispatch = useDispatch();
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState("All");
   const [selectedTask, setSelectedTask] = useState(null);
 
-  useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
-
   const handleCreateTask = (task) => {
-    const newTask = {
-      id: tasks.length + 1,
-      ...task,
-    };
-    setTasks([...tasks, newTask]);
+    dispatch(addTask(task));
     setIsModelOpen(false);
   };
 
   const handleEditTask = (updatedTask) => {
-    const updatedTasks = tasks.map((task) =>
-      task.id === selectedTask.id ? { ...task, ...updatedTask } : task
+    dispatch(
+      updateTask({
+        id: selectedTask.id,
+        ...updatedTask,
+      }),
     );
-    setTasks(updatedTasks);
     setSelectedTask(null);
     setIsModelOpen(false);
   };
 
   const handleDeleteTask = (id) => {
-    const updatedTasks = tasks.filter((task) => task.id !== id);
-    setTasks(updatedTasks);
+    dispatch(deleteTask(id));
   };
 
   const filteredTasks =

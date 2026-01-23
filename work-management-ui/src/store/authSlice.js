@@ -15,7 +15,6 @@ const authSlice = createSlice({
     logout(state) {
       state.isAuthenticated = false;
       localStorage.removeItem("isAuthenticated");
-      localStorage.removeItem("tasks");
     },
   },
 });

@@ -22,7 +22,10 @@ function App() {
             element={
               <ProtectedRoute
                 isAuthenticated={isAuthenticated}
-                onLogout={() => dispatch(logout())}
+                onLogout={() => {
+                  dispatch(logout());
+                  dispatch({ type: "tasks/clearTasks" });
+                }}
               />
             }
           >
