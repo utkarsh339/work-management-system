@@ -2,15 +2,16 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Login({ onLogin }) {
-  let [email, setEmail] = useState("");
-  let [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("User");
 
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (email && password) {
-      onLogin();
+      onLogin(role);
       navigate("/dashboard");
     }
   };
@@ -34,6 +35,11 @@ function Login({ onLogin }) {
           style={styles.input}
           onChange={(e) => setPassword(e.target.value)}
         />
+
+        <select value={role} onChange={(e) => setRole(e.target.value)}>
+          <option value="User">User</option>
+          <option value="Manager">Manager</option>
+        </select>
 
         <button style={styles.button} type="submit">
           Login

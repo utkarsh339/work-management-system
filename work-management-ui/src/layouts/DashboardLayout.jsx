@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function DashboardLayout({ onLogout, children }) {
+  const role = useSelector((state) => state.auth.role);
   return (
     <div style={styles.container}>
       {/* Sidebar */}
@@ -13,9 +15,11 @@ function DashboardLayout({ onLogout, children }) {
           <Link to="/tasks" style={styles.link}>
             My Tasks
           </Link>
-          <Link to="/approvals" style={styles.link}>
-            Approval Requests
-          </Link>
+          {role === "Manager" && (
+            <Link to="/approvals" style={styles.link}>
+              Approval Requests
+            </Link>
+          )}
         </nav>
       </aside>
       {/* Main area */}

@@ -6,6 +6,7 @@ import Approvals from "./pages/Approvals.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { login, logout } from "./store/authSlice.js";
+import RoleProtectedRoute from "./routes/RoleProtectedRoute.jsx";
 
 function App() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -16,7 +17,7 @@ function App() {
         <Routes>
           <Route
             path="/login"
-            element={<Login onLogin={() => dispatch(login())} />}
+            element={<Login onLogin={(role) => dispatch(login(role))} />}
           />
           <Route
             element={
@@ -30,7 +31,14 @@ function App() {
           >
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/tasks" element={<Tasks />} />
-            <Route path="/approvals" element={<Approvals />} />
+            <Route
+              path="/approvals"
+              element={
+                <RoleProtectedRoute allowedRole="Manager">
+                  <Approvals />
+                </RoleProtectedRoute>
+              }
+            />
           </Route>
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
