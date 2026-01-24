@@ -24,6 +24,23 @@ const initialTasks = [
   },
 ];
 
+const initialApprovals = [
+  {
+    id: 1,
+    title: "Leave Request (2 days)",
+    requestedBy: "John Doe",
+    status: "Pending",
+    requestedDate: "2026-01-18",
+  },
+  {
+    id: 2,
+    title: "Expense Reimbursement",
+    requestedBy: "Jane Smith",
+    status: "Pending",
+    requestedDate: "2026-01-17",
+  },
+];
+
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
@@ -76,6 +93,43 @@ export const apiSlice = createApi({
         return { data: id };
       },
     }),
+
+    getApprovals: builder.query({
+      queryFn: () => {
+        let approvals = JSON.parse(localStorage.getItem("approvals"));
+
+        if (!approvals || approvals.length === 0) {
+          localStorage.setItem("approvals", JSON.stringify(initialApprovals));
+          approvals = initialApprovals;
+        }
+        return { data: approvals };
+      },
+    }),
+
+    approveApproval: builder.mutation({
+      queryFn: (id) => {
+        const approvals = JSON.parse(localStorage.getItem("approvals")) || [];
+
+        const updatedApprovals = approvals.map((a) =>
+          a.id === id ? { ...a, status: "Approved" } : a,
+        );
+        localStorage.setItem("approvals", JSON.stringify(updatedApprovals));
+
+        return { data: id };
+      },
+    }),
+
+    rejectApproval: builder.mutation({
+      queryFn: (id) => {
+        const approvals = JSON.parse(localStorage.getItem("approvals")) || [];
+        const updatedApprovals = approvals.map((a) =>
+          a.id === id ? { ...a, status: "Rejected" } : a,
+        );
+        localStorage.setItem("approvals", JSON.stringify(updatedApprovals));
+
+        return { data: id };
+      },
+    }),
   }),
 });
 
@@ -84,6 +138,10 @@ export const {
   useAddTaskMutation,
   useUpdateTaskMutation,
   useDeleteTaskMutation,
+
+  useGetApprovalsQuery,
+  useApproveApprovalMutation,
+  useRejectApprovalMutation,
 } = apiSlice;
 
 export default apiSlice.reducer;
