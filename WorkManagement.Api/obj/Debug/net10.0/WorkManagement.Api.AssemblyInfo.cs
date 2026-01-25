@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WorkManagement.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+55d79b71d93a225d0eaa7b5027b240ceaadf5c47")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7c640fd5fb7d137e3c9e8475310e898091bcaa82")]
 [assembly: System.Reflection.AssemblyProductAttribute("WorkManagement.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WorkManagement.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
