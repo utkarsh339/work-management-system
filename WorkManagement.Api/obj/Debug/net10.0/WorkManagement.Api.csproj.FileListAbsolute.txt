@@ -26,7 +26,6 @@ D:\WorkManagement\WorkManagement.Api\obj\Debug\net10.0\staticwebassets.build.jso
 D:\WorkManagement\WorkManagement.Api\obj\Debug\net10.0\staticwebassets.development.json
 D:\WorkManagement\WorkManagement.Api\obj\Debug\net10.0\staticwebassets.build.endpoints.json
 D:\WorkManagement\WorkManagement.Api\obj\Debug\net10.0\swae.build.ex.cache
-D:\WorkManagement\WorkManagement.Api\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
 D:\WorkManagement\WorkManagement.Api\obj\Debug\net10.0\WorkMana.CE63F2D9.Up2Date
 D:\WorkManagement\WorkManagement.Api\obj\Debug\net10.0\WorkManagement.Api.dll
 D:\WorkManagement\WorkManagement.Api\obj\Debug\net10.0\refint\WorkManagement.Api.dll
@@ -158,3 +157,4 @@ D:\WorkManagement\WorkManagement.Api\bin\Debug\net10.0\runtimes\win\lib\net9.0\M
 D:\WorkManagement\WorkManagement.Api\bin\Debug\net10.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
 D:\WorkManagement\WorkManagement.Api\bin\Debug\net10.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
 D:\WorkManagement\WorkManagement.Api\bin\Debug\net10.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+D:\WorkManagement\WorkManagement.Api\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
