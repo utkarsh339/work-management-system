@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WorkManagement.Api.Models;
 
 namespace WorkManagement.Api.Data
 {
@@ -8,5 +9,6 @@ namespace WorkManagement.Api.Data
         {
 
         }
+        public DbSet<User> Users { get; set; }
     }
 }
