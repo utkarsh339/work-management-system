@@ -16,6 +16,36 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "WorkManagement.Api.Controllers.TestController",
+    "Method": "ManagerOnly",
+    "RelativePath": "api/test/manager-only",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WorkManagement.Api.Controllers.TestController",
+    "Method": "Protected",
+    "RelativePath": "api/test/protected",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WorkManagement.Api.Controllers.TestController",
+    "Method": "Public",
+    "RelativePath": "api/test/public",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "WorkManagement.Api.Controllers.WeatherForecastController",
     "Method": "Get",
     "RelativePath": "WeatherForecast",
