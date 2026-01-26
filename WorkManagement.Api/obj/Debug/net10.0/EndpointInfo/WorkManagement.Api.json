@@ -81,7 +81,7 @@
         }
       }
     },
-    "/WeatherForecast": {
+    "/swagger": {
       "get": {
         "tags": [
           "WeatherForecast"

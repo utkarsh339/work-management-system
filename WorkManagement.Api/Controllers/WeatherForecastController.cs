@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WorkManagement.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("swagger")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries =

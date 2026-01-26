@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WorkManagement.Api.Data;
 using WorkManagement.Api.DTOs;
 using WorkManagement.Api.Helpers;
 using WorkManagement.Api.Services;
-using Microsoft.EntityFrameworkCore;
 
 namespace WorkManagement.Api.Controllers
 {
     [ApiController]
     [Route("api/auth")]
-    public class AuthController: ControllerBase
+    public class AuthController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
         private readonly JwtTokenGenerator _tokenGenerator;
@@ -23,15 +23,28 @@ namespace WorkManagement.Api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequestDto request)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u=> u.Email == request.Email);
+            Console.WriteLine($"EMAIL RECEIVED: {request.Email}");
+            Console.WriteLine($"PASSWORD RECEIVED: {request.Password}");
+
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.Email == request.Email);
 
             if (user == null)
-                return Unauthorized("Invalid Credentials");
+            {
+                Console.WriteLine("USER NOT FOUND");
+                return Unauthorized("Invalid credentials");
+            }
 
             var hashed = PasswordHasher.Hash(request.Password);
 
+            Console.WriteLine($"HASH FROM REQUEST: {hashed}");
+            Console.WriteLine($"HASH FROM DB: {user.PasswordHash}");
+
             if (user.PasswordHash != hashed)
+            {
+                Console.WriteLine("PASSWORD MISMATCH");
                 return Unauthorized("Invalid credentials");
+            }
 
             var token = _tokenGenerator.GenerateToken(user);
 
@@ -42,5 +55,6 @@ namespace WorkManagement.Api.Controllers
                 FullName = user.FullName
             });
         }
+
     }
 }
