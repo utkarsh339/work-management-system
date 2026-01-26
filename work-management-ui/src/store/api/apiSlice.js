@@ -44,14 +44,21 @@ const initialApprovals = [
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api",
+    baseUrl: "https://localhost:7184/api",
   }),
   endpoints: (builder) => ({
+    login: builder.mutation({
+      query: (credentials) => ({
+        url: "/auth/login",
+        method: "POST",
+        body: credentials,
+      }),
+    }),
+
     getTasks: builder.query({
       queryFn: () => {
         let tasks = JSON.parse(localStorage.getItem("tasks"));
 
-        // Seed data only once
         if (!tasks || tasks.length === 0) {
           localStorage.setItem("tasks", JSON.stringify(initialTasks));
           tasks = initialTasks;
@@ -64,10 +71,7 @@ export const apiSlice = createApi({
     addTask: builder.mutation({
       queryFn: (newTask) => {
         const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-        const taskWithId = {
-          id: tasks.length + 1,
-          ...newTask,
-        };
+        const taskWithId = { id: tasks.length + 1, ...newTask };
         const updatedTasks = [...tasks, taskWithId];
         localStorage.setItem("tasks", JSON.stringify(updatedTasks));
         return { data: taskWithId };
@@ -102,6 +106,7 @@ export const apiSlice = createApi({
           localStorage.setItem("approvals", JSON.stringify(initialApprovals));
           approvals = initialApprovals;
         }
+
         return { data: approvals };
       },
     }),
@@ -109,12 +114,10 @@ export const apiSlice = createApi({
     approveApproval: builder.mutation({
       queryFn: (id) => {
         const approvals = JSON.parse(localStorage.getItem("approvals")) || [];
-
         const updatedApprovals = approvals.map((a) =>
           a.id === id ? { ...a, status: "Approved" } : a,
         );
         localStorage.setItem("approvals", JSON.stringify(updatedApprovals));
-
         return { data: id };
       },
     }),
@@ -126,7 +129,6 @@ export const apiSlice = createApi({
           a.id === id ? { ...a, status: "Rejected" } : a,
         );
         localStorage.setItem("approvals", JSON.stringify(updatedApprovals));
-
         return { data: id };
       },
     }),
@@ -134,6 +136,8 @@ export const apiSlice = createApi({
 });
 
 export const {
+  useLoginMutation,
+
   useGetTasksQuery,
   useAddTaskMutation,
   useUpdateTaskMutation,

@@ -1,18 +1,35 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLoginMutation } from "../store/api/apiSlice";
 
 function Login({ onLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("User");
+  // const [role, setRole] = useState("User");
+  const [loginApi, { isLoading, error }] = useLoginMutation();
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (email && password) {
-      onLogin(role);
+    console.log("Login Button Clicked");
+    try {
+      const response = await loginApi({
+        email,
+        password,
+      }).unwrap();
+
+      console.log("Login Response:", response);
+
+      onLogin({
+        token: response.token,
+        role: response.role,
+      });
+
+      console.log("After onLogin");
       navigate("/dashboard");
+    } catch (err) {
+      console.error("Login failed", err);
     }
   };
 
@@ -33,16 +50,22 @@ function Login({ onLogin }) {
           placeholder="Password"
           value={password}
           style={styles.input}
+          required
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <select value={role} onChange={(e) => setRole(e.target.value)}>
+        {/* <select value={role} onChange={(e) => setRole(e.target.value)}>
           <option value="User">User</option>
           <option value="Manager">Manager</option>
-        </select>
+        </select> */}
+        {error && (
+          <p style={{ color: "red", fontSize: "13px" }}>
+            Invalid email or Password
+          </p>
+        )}
 
-        <button style={styles.button} type="submit">
-          Login
+        <button style={styles.button} type="submit" disabled={isLoading}>
+          {isLoading ? "Logging in..." : "Login"}
         </button>
       </form>
     </div>
