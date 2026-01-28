@@ -16,6 +16,32 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "WorkManagement.Api.Controllers.TasksController",
+    "Method": "GetTasks",
+    "RelativePath": "api/tasks",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WorkManagement.Api.Controllers.TasksController",
+    "Method": "CreateTask",
+    "RelativePath": "api/tasks",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "WorkManagement.Api.DTOs.CreateTaskDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "WorkManagement.Api.Controllers.TestController",
     "Method": "ManagerOnly",
     "RelativePath": "api/test/manager-only",
